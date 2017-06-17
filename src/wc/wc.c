@@ -7,10 +7,19 @@ static int g_nbytes = 0;
 
 static void print_result(int l, int w, int b, const char *filename)
 {
+#ifdef __linux__
+    // wc on Linux adjusts amount of spaces with some smart way. It is not
+    // implemented here. Revisit later if I see a value to implement it.
+    if (filename == NULL)
+        printf(" %d %d %d\n", l, w, b);
+    else
+        printf(" %d %d %d %s\n", l, w, b, filename);
+#else
     if (filename == NULL)
         printf("%8d %7d %7d\n", l, w, b);
     else
         printf("%8d %7d %7d %s\n", l, w, b, filename);
+#endif
 }
 
 static int read_file(FILE *f, const char *filename)
