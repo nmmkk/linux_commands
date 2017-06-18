@@ -12,4 +12,5 @@ set(MY_COMPILE_FLAGS
     "-g -Wall -O0")
 
 add_subdirectory(wc)
+add_subdirectory(cat)
 
