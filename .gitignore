@@ -53,3 +53,6 @@ dkms.conf
 
 # out-of-source builds
 build/
+
+# general files to ignore
+*.swp
