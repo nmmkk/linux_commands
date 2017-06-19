@@ -2,11 +2,11 @@
 
 static int cat(FILE *f)
 {
-    char buf[4096];
-    size_t r;
+    int c;
 
-    while ((r = fread(buf, sizeof(char), sizeof(buf), f)) != 0)
-        printf("%s", buf);
+    while ((c = fgetc(f)) != EOF) {
+        putc(c, stdout);
+    }
 
     return 0;
 }
