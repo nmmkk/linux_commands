@@ -19,7 +19,11 @@ static int ls(char const *path) {
         if (strcmp(r->d_name, ".") == 0 || strcmp(r->d_name, "..") == 0) {
             continue;
         }
-        puts(r->d_name);
+        char postfix = '\0';
+        if (r->d_type == DT_DIR) {
+            postfix = '/';
+        }
+        printf("%s%c\n", r->d_name, postfix);
     }
     closedir(d);
 
