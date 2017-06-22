@@ -14,4 +14,5 @@ set(MY_COMPILE_FLAGS
 add_subdirectory(wc)
 add_subdirectory(cat)
 add_subdirectory(ls)
+add_subdirectory(cd)
 
