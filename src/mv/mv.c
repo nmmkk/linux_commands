@@ -7,6 +7,13 @@
 #include <errno.h>
 #include <stdbool.h>
 #include <string.h>
+#include <stdarg.h>
+
+enum e_priorities {
+    eLogDebug = 0x1,
+    eLogInfo  = 0x2,
+};
+static int PRI_ALL = eLogDebug | eLogInfo;
 
 enum e_filetype {
     eFile = 0,
@@ -30,9 +37,22 @@ static void usage(void)
     return;
 }
 
+static void pr_debug(enum e_priorities pri, char const* fmt, ...)
+{
+    va_list ap;
+    if (! pri & PRI_ALL)
+        return;
+    va_start(ap, fmt);
+    printf("\t");
+    vprintf(fmt, ap);
+    va_end(ap);
+    return;
+}
+
 static char* get_basename(const char* path)
 {
     char *p;
+    // TODO: Handle the path with one or more '/' characters at the end
     if ((p = strrchr(path, '/')) == NULL)
         p = (char*)path;
     return p;
@@ -76,6 +96,7 @@ static void init_struct(struct pathinfo* p, char const* path)
     p->path = path;
     p->filetype = do_stat(p->path, &p->status);
     p->bname = get_basename(p->path);
+    pr_debug(eLogDebug, "bname=%s\n", p->bname);
 }
 
 int main(int argc, char const* argv[])
@@ -104,6 +125,7 @@ int main(int argc, char const* argv[])
         if (old.filetype == eFile && new.filetype == eDir) {
             char path[PATH_MAX];
             snprintf(path, sizeof(path), "%s/%s", new.path, old.bname);
+            pr_debug(eLogDebug, "%s\n", path);
             if ((rename(old.path, path)) != 0) {
                 perror("rename");
                 exit(1);
