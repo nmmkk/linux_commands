@@ -18,4 +18,5 @@ add_subdirectory(cd)
 add_subdirectory(pwd)
 add_subdirectory(mv)
 add_subdirectory(echo)
+add_subdirectory(df)
 
